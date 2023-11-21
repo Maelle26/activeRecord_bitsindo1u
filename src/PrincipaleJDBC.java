@@ -9,13 +9,12 @@ import java.sql.Statement;
 import java.util.Properties;
 
 public class PrincipaleJDBC {
-
     // IL FAUT PENSER A AJOUTER MYSQLCONNECTOR AU CLASSPATH
 
     public static void main(String[] args) throws SQLException {
 
         // variables a modifier en fonction de la base
-        String userName = "root";
+        /*String userName = "root";
         String password = "";
         String serverName = "localhost";
         //Attention, sous MAMP, le port est 8889
@@ -31,7 +30,9 @@ public class PrincipaleJDBC {
         connectionProps.put("password", password);
         String urlDB = "jdbc:mysql://" + serverName + ":";
         urlDB += portNumber + "/" + dbName;
-        Connection connect = DriverManager.getConnection(urlDB, connectionProps);
+        Connection connect = DriverManager.getConnection(urlDB, connectionProps);*/
+
+        Connection connect = DBConnection.getConnection();
 
         // creation de la table Personne
         {
