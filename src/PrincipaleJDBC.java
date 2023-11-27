@@ -32,7 +32,7 @@ public class PrincipaleJDBC {
         urlDB += portNumber + "/" + dbName;
         Connection connect = DriverManager.getConnection(urlDB, connectionProps);*/
 
-        Connection connect = DBConnection.getConnection();
+        /*Connection connect = DBConnection.getConnection();
 
         // creation de la table Personne
         {
@@ -157,7 +157,10 @@ public class PrincipaleJDBC {
             Statement stmt = connect.createStatement();
             stmt.executeUpdate(drop);
             System.out.println("9) Supprime table Personne");
-        }
+        }*/
+        System.out.println(Personne.findAll());
+        System.out.println (Personne.findById(4));
+        System.out.println(Personne.findByName("Scott"));
 
     }
 

@@ -16,7 +16,7 @@ public class DBConnection {
 
     //constructeur
     private DBConnection() throws SQLException {
-        this.dbName = "testpersonne";
+        DBConnection.dbName = "testpersonne";
         this.password = "";
         this.serverName = "localhost";
         this.userName = "root";
