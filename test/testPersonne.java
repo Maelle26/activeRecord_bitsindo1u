@@ -17,12 +17,13 @@ public class testPersonne {
         Personne.createTable();
 
         //Ajouts des peronnes
-        new Personne("Spielberg", "Steven",1);
-        new Personne("Scott", "Ridley",2);
-        new Personne("Kubrick", "Stanley",3);
-        new Personne("Spielberg", "George",4);
+        new Personne("Spielberg", "Steven",1).save();
+        new Personne("Scott", "Ridley",2).save();
+        new Personne("Kubrick", "Stanley",3).save();
+        new Personne("Spielberg", "George",4).save();
 
     }
+
     //teste quand la liste est correcte
     @Test
     public void test_findAll_OK() throws SQLException {
@@ -102,4 +103,30 @@ public class testPersonne {
         Assertions.assertEquals(0, p.size(),"pas de reponse");
     }
 
+    //on test sauvegarde d'une nouvelle personne inexistante
+    @Test
+     public void testSaveNew() throws SQLException {
+     Personne p = new Personne("toto", "titi");
+     p.save();
+
+     assertEquals(5, p.getId());
+     /*Personne pers = Personne.findById(5);
+     assertEquals(pers.getNom(), "toto");
+     assertEquals(pers.getPrenom(), "titi");
+     assertEquals(pers.getId(), 5);*/
+     }
+    @BeforeEach
+    public void supprimerDonnes() throws SQLException {
+
+        //supression des personnes de la table
+        new Personne("Spielberg", "Steven",1).delete();
+        new Personne("Scott", "Ridley",2).delete();
+        new Personne("Kubrick", "Stanley",3).delete();
+        new Personne("Spielberg", "George",4).delete();
+
+        //suppression de la table
+        Personne.deleteTable();
+
+
+    }
 }

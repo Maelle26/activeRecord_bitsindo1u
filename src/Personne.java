@@ -50,7 +50,7 @@ public class Personne {
      * passé en paramètre (null si l'objet n'existe pas)
      * @return la personne avec l'id passé en paramètre
      */
-    public static Personne findById(int i) throws SQLException {    //A VERIFIER
+    public static Personne findById(int i) throws SQLException {
         Connection connect = DBConnection.getConnection();
         //Personne p = new Personne(null,null);
         String SQLPrep = "SELECT * FROM PERSONNE WHERE id = ?;";
@@ -157,10 +157,62 @@ public class Personne {
     }
 
     /**
+     * Méthode saveNew pour ajouter dans la table
+     */
+    private void saveNew() throws SQLException {
+        Connection connect = DBConnection.getConnection();
+        String SQLPrep = "INSERT INTO Personne (nom, prenom) VALUES (?,?);";
+        PreparedStatement prep = connect.prepareStatement(SQLPrep, Statement.RETURN_GENERATED_KEYS);
+        prep.setString(1, this.nom);
+        prep.setString(2, this.prenom);
+        prep.executeUpdate();
+
+        // recuperation de la derniere ligne ajoutee (auto increment)
+        // recupere le nouvel id
+        ResultSet rs = prep.getGeneratedKeys();
+        if (rs.next()) {
+            this.id = rs.getInt(1);
+        }
+    }
+
+    /**
+     * Méthode update qui met à jour le tuple existant
+     */
+    public void update() throws SQLException {
+        Connection connect = DBConnection.getConnection();
+        String SQLprep = "update Personne set nom=?, prenom=? where id=?;";
+        PreparedStatement prep = connect.prepareStatement(SQLprep);
+        Statement stmt = connect.createStatement();
+        prep = connect.prepareStatement(SQLprep);
+        prep.setString(1, nom);
+        prep.setString(2, prenom);
+        prep.setInt(3,id);
+        prep.execute();
+        System.out.println("La personne a été mise à jour.");
+    }
+
+    /**
      * Méthode save() qui ajoute le tuple correspondant à l'objet personne this dans la base
      */
-    public void save(){
-        //A FAIRE
+    public void save() throws SQLException {
+        if(id == -1){
+            this.saveNew();
+        }else {
+            this.update();
+        }
+    }
+
+    /**
+     * Méthode delete qui supprime la personne sur laquelle la méthode est appelée
+     */
+    public void delete() throws SQLException {
+        Connection connect = DBConnection.getConnection();
+        PreparedStatement prep = connect.prepareStatement("DELETE FROM Personne WHERE id=?");
+        prep.setInt(1, id);
+        //on remet l'id à -1 car la personne n'existe plus
+        id = -1;
+        prep.execute();
+        System.out.println(prenom + " "+ nom + " "+ "a été supprimé avec succès.");
     }
 }
 
